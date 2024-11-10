@@ -17,7 +17,7 @@ export class JournalLink {
         let text = change.text;
         if (text !== undefined) {
             await this.update(entity, 'JournalEntryPage', text.content || '', false);
-        } else if (change.flags?.['journal-backlinks']?.['-=sync'] === null) {
+        } else if (change.flags?.['journal-backlinks-extended']?.['-=sync'] === null) {
             await this.update(entity, 'JournalEntryPage', entity.text.content || '', true);
         }
     }
@@ -57,9 +57,9 @@ export class JournalLink {
     }
     async initNewPage(entity, change) {    
         //Make sure references are not carried over to copies
-        await entity.unsetFlag('journal-backlinks', 'referencedBy');
-        await entity.unsetFlag('journal-backlinks', 'references');
-        await entity.unsetFlag('journal-backlinks', 'sync');
+        await entity.unsetFlag('journal-backlinks-extended', 'referencedBy');
+        await entity.unsetFlag('journal-backlinks-extended', 'references');
+        await entity.unsetFlag('journal-backlinks-extended', 'sync');
     }
     async updateActor(entity, change) {
         const fields = [
@@ -77,7 +77,7 @@ export class JournalLink {
 
         if(this.checkForChange(fields, change, entity)) {
             await this.update(entity, 'Actor', content || '', false);
-        } else if (change.flags?.['journal-backlinks']?.['-=sync'] === null) {
+        } else if (change.flags?.['journal-backlinks-extended']?.['-=sync'] === null) {
             await this.update(entity, 'Actor', content || '', true);
         }
         
@@ -95,19 +95,19 @@ export class JournalLink {
 
         if(this.checkForChange(fields, change, entity)) {
             await this.update(entity, 'Item', content || '', false);
-        } else if (change.flags?.['journal-backlinks']?.['-=sync'] === null) {
+        } else if (change.flags?.['journal-backlinks-extended']?.['-=sync'] === null) {
             await this.update(entity, 'Item', content || '', true);
         }       
     }
 
     async update(entity, entityType, content, force) {
-        if (!force && !game.settings.get('journal-backlinks', 'rebuildOnSave')) {
+        if (!force && !game.settings.get('journal-backlinks-extended', 'rebuildOnSave')) {
             this.log('not updating ' + entityType + ' ' + entity.name + ' as rebuildOnSave is false');
             return;
         }
         this.log('updating ' + entityType + ' ' + entity.name + ' (' + entity.uuid + ')');
         let references = this.references(content);
-        let existing = entity.flags['journal-backlinks']?.references || [];
+        let existing = entity.flags['journal-backlinks-extended']?.references || [];
 
         let updated = [];
 
@@ -140,7 +140,7 @@ export class JournalLink {
             }
 
             this.debug('adding to referencedBy in ' + referenced.name);
-            let links = await referenced.getFlag('journal-backlinks', 'referencedBy') || {};
+            let links = await referenced.getFlag('journal-backlinks-extended', 'referencedBy') || {};
             let linksOfType = links[entityType] || [];
             if (linksOfType.includes(entity.uuid)) {
                 this.debug(entityType + ' ' + entity.uuid + ' already exists, skipping');
@@ -149,7 +149,7 @@ export class JournalLink {
             linksOfType.push(entity.uuid);
 
             links[entityType] = linksOfType;
-            referenced.setFlag('journal-backlinks', 'referencedBy', duplicate(links));
+            referenced.setFlag('journal-backlinks-extended', 'referencedBy', duplicate(links));
         }
 
         for (let outdated of existing.filter(v => !updated.includes(v))) {
@@ -160,7 +160,7 @@ export class JournalLink {
                 continue;
             }
 
-            let links = await target.getFlag('journal-backlinks', 'referencedBy');
+            let links = await target.getFlag('journal-backlinks-extended', 'referencedBy');
             let linksOfType = links[entityType] || [];
             let outdatedIdx = linksOfType.indexOf(entity.uuid);
             if (outdatedIdx > -1) {
@@ -176,10 +176,10 @@ export class JournalLink {
                 }
 
                 let copy = duplicate(links);
-                await target.setFlag('journal-backlinks', 'referencedBy', copy);
+                await target.setFlag('journal-backlinks-extended', 'referencedBy', copy);
             }
         }
-        await entity.setFlag('journal-backlinks', 'references', updated);
+        await entity.setFlag('journal-backlinks-extended', 'references', updated);
     }
 
     generateBacklinkBox(sheet) {
@@ -227,14 +227,14 @@ export class JournalLink {
 
     includeLinks(html, entityData,entityType) {
         let displayWindow=false;
-        let links = entityData.flags?.['journal-backlinks']?.['referencedBy'] || {};
+        let links = entityData.flags?.['journal-backlinks-extended']?.['referencedBy'] || {};
         if (Object.keys(links).length === 0)
             return;
 
         this.log('appending links to ' + entityData.name);
 
         let linksDiv = $('<div class="journal-backlinks"></div>');
-        let heading = document.createElement(game.settings.get('journal-backlinks', 'headingTag'));
+        let heading = document.createElement(game.settings.get('journal-backlinks-extended', 'headingTag'));
         heading.append('Linked from');
         linksDiv.append(heading);
         let linksList = $('<ul class="dsalist"></ul>');
@@ -247,7 +247,7 @@ export class JournalLink {
                     this.log('ERROR | unable to find entity (try the sync button?)');
 		    continue;
                 }
-                if (!entity.testUserPermission(game.users.current, game.settings.get('journal-backlinks', 'minPermission')))
+                if (!entity.testUserPermission(game.users.current, game.settings.get('journal-backlinks-extended', 'minPermission')))
                     continue;
                 displayWindow=true;
                 this.debug('adding link from ' + type + ' ' + entity.name);
@@ -320,7 +320,7 @@ export class JournalLink {
                 let entity = document.entry;
                 if (entity.flags !== undefined) {
                     this.debug('wiping referencedBy for ' + entity.name);
-                    await entity.unsetFlag('journal-backlinks', 'referencedBy');
+                    await entity.unsetFlag('journal-backlinks-extended', 'referencedBy');
                 }
             }
         }
@@ -332,8 +332,8 @@ export class JournalLink {
                 let entity = document.entry;
                 if (entity.flags !== undefined) {
                     this.debug('wiping references and refreshing for ' + entity.name);
-                    await entity.unsetFlag('journal-backlinks', 'references');
-                    await entity.unsetFlag('journal-backlinks', 'sync');
+                    await entity.unsetFlag('journal-backlinks-extended', 'references');
+                    await entity.unsetFlag('journal-backlinks-extended', 'sync');
                 }
             }
         }
