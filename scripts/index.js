@@ -4,11 +4,11 @@ import { Sync } from './sync.js';
 // bump this to cause a sync on page load (one time)
 const SYNC_VERSION = 1;
 
-const MODULE_NAME = 'journal-backlinks';
-const NAME = 'Journal Backlinks';
+const MODULE_NAME = 'journal-backlinks-extended';
+const NAME = 'Extended Journallinks';
 
 Hooks.on("init", () => {
-    console.log('journal-backlinks | initializing');
+    console.log('journal-backlinks-extended | initializing');
     let modulename = MODULE_NAME;
     game.settings.register(MODULE_NAME, 'rebuildOnSave', {
         name: game.i18n.localize('JournalBacklinks.rebuildOnSave.name'),

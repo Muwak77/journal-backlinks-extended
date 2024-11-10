@@ -306,8 +306,8 @@ export class JournalLink {
     async sync() {
         this.log('syncing links...');
 
-        //let document_types = ['JournalEntryPage', 'Actor'];
-        let document_types = ['JournalEntryPage', 'Actor', 'Item', 'RollTable'];
+        let document_types = ['JournalEntryPage', 'Actor'];
+        //let document_types = ['JournalEntryPage', 'Actor', 'Item', 'RollTable'];
         let entries = game.documentIndex.lookup('', {
             documentTypes: document_types,
             limit: Number.MAX_SAFE_INTEGER
