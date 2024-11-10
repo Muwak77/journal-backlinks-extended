@@ -68,7 +68,7 @@ export class JournalLink {
             'system.details.notes.ownerdescription',
             'system.details.notes.value',
             'system.details.biography.value',
-            ' system.gmNotes.source',
+            'system.gmNotes.source',
             'system.notes.source'            
         ];                
 
