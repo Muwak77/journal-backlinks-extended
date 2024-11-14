@@ -227,7 +227,24 @@ export class JournalLink {
 
     includeLinks(html, entityData,entityType) {
         let displayWindow=false;
-        let links = entityData.flags?.['journal-backlinks-extended']?.['referencedBy'] || {};
+        let links = entityData.flags?.['journal-backlinks-extended']?.['referencedBy'] || {};        
+        
+        let valueSet = [];
+        let iconSet = [];
+        
+        //Getting informations from Journal Categories
+        try {
+            valueSet = (game.settings.get("journal-categories", "valueSet") || "").split(";").map(item => item.trim());
+        } catch (error) {
+            console.warn("Fehler beim Abrufen von werteText aus den Einstellungen:", error);
+        }
+        
+        try {
+            iconSet = (game.settings.get("journal-categories", "iconSet") || "").split(";").map(icon => icon.trim());
+        } catch (error) {
+            console.warn("Fehler beim Abrufen von iconSet aus den Einstellungen:", error);
+        }
+
         if (Object.keys(links).length === 0)
             return;
 
@@ -242,6 +259,10 @@ export class JournalLink {
             for (let value of values) {
                 
                 let entity = fromUuidSync(value);     
+                const category = entity.getFlag('journal-categories', 'categoryDropdown') || "-";
+                const categoryIndex = valueSet.indexOf(category);
+                let icon = iconSet[categoryIndex] || "";
+                
                 if (!entity) {
 		    // this is a bug, but best to try to work around it and log
                     this.log('ERROR | unable to find entity (try the sync button?)');
@@ -255,23 +276,25 @@ export class JournalLink {
                 link.attr('data-type', type);
                 link.attr('data-uuid', value);
                 link.attr('data-link', "");
-                link.attr('data-id', entity.id);
-
-                let icon = 'fas ';
-                switch (type) {
-                case 'JournalEntryPage':
-                    icon += 'fa-file-lines';
-                    break;
-                case 'Actor':
-                    icon += 'fa-user';
-                    break;
-                case 'Item':
-                    icon += 'fa-suitcase';
-                    break;
-                case 'RollTable':
-                    icon == 'fa-th-list';
-                    break;
+                link.attr('data-id', entity.id);        
+                if(icon.length==0) {                                 
+                    icon = 'fas ';
+                    switch (type) {
+                    case 'JournalEntryPage':
+                        icon += 'fa-file-lines';
+                        break;
+                    case 'Actor':
+                        icon += 'fa-user';
+                        break;
+                    case 'Item':
+                        icon += 'fa-suitcase';
+                        break;
+                    case 'RollTable':
+                        icon == 'fa-th-list';
+                        break;
+                    }
                 }
+                
                 link.append($('<i class="' + icon + '"></i>'));
                 link.append(' ' + entity.name);
 
