@@ -259,7 +259,15 @@ export class JournalLink {
             for (let value of values) {
                 
                 let entity = fromUuidSync(value);     
-                const category = entity.getFlag('journal-categories', 'categoryDropdown') || "-";
+                let category;
+                try {
+                    category = entity.getFlag('journal-categories', 'categoryDropdown') || "-";
+                } catch (error) {
+
+                    category = "";
+                }
+                
+
                 const categoryIndex = valueSet.indexOf(category);
                 let icon = iconSet[categoryIndex] || "";
                 
