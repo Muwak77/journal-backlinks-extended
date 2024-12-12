@@ -1,5 +1,5 @@
 export class JournalLink {
-    re = /@(\w+)\[([\w| |\.]+)\]/g;
+    re = /@(\w+)\[([\w#| |\.]+)\]/g;
 
     entityMap = {
     };
