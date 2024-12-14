@@ -1,5 +1,6 @@
 export class JournalLink {
-    re = /@(\w+)\[([\w#| |\.]+)\]/g;
+    re = /@(\w+)\[([\w| |\.|#]+(#[-\w]*)?)\]/g;
+    
 
     entityMap = {
     };
@@ -156,7 +157,7 @@ export class JournalLink {
                               
             let target =  fromUuidSync(outdated);     
             if (!target) {
-                this.debug('outdated entity ' + type + ' ' + outdated + ' does not exist');
+                this.debug('outdated entity ' + entityType + ' ' + outdated + ' does not exist');
                 continue;
             }
 
@@ -376,10 +377,13 @@ export class JournalLink {
         return Array.from(text.matchAll(this.re)).map(
             m => {
                 let link_type = m[1];
+                let link = m[2].replace(/#.*$/, "");
                 if (link_type === "UUID") {
-                    return m[2];
+
+                    
+                    return link;
                 } else {
-                    return link_type + "." + m[2];
+                    return link_type + "." + link;
                 }
             }
         );
