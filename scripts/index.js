@@ -36,6 +36,19 @@ Hooks.on("init", () => {
         choices: permissions,
         default: 1
     });
+    const displayStyles={
+        "page": "Page Name",
+        "journalandpage": "Journal and Page"
+    }
+    game.settings.register(MODULE_NAME, 'displayStyle', {
+        name: game.i18n.localize('JournalBacklinks.displayStyle.name'),
+        hint: game.i18n.localize('JournalBacklinks.displayStyle.hint'),
+        scope: 'world',
+        config: true,
+        type: String,
+        choices: displayStyles,
+        default: 'page'
+    });
     game.settings.register(MODULE_NAME, 'debug', {
         name: game.i18n.localize('JournalBacklinks.debug.name'),
         scope: 'client',

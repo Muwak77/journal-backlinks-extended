@@ -229,7 +229,7 @@ export class JournalLink {
     includeLinks(html, entityData,entityType) {
         let displayWindow=false;
         let links = entityData.flags?.['journal-backlinks-extended']?.['referencedBy'] || {};        
-        
+        let displayStyle=game.settings.get("journal-backlinks-extended", "displayStyle");
         let valueSet = [];
         let iconSet = [];
         
@@ -237,13 +237,13 @@ export class JournalLink {
         try {
             valueSet = (game.settings.get("journal-categories", "valueSet") || "").split(";").map(item => item.trim());
         } catch (error) {
-            console.warn("Fehler beim Abrufen von werteText aus den Einstellungen:", error);
+            //console.warn("Fehler beim Abrufen von werteText aus den Einstellungen:", error);
         }
         
         try {
             iconSet = (game.settings.get("journal-categories", "iconSet") || "").split(";").map(icon => icon.trim());
         } catch (error) {
-            console.warn("Fehler beim Abrufen von iconSet aus den Einstellungen:", error);
+            //console.warn("Fehler beim Abrufen von iconSet aus den Einstellungen:", error);
         }
 
         if (Object.keys(links).length === 0)
@@ -273,10 +273,11 @@ export class JournalLink {
                 let icon = iconSet[categoryIndex] || "";
                 
                 if (!entity) {
-		    // this is a bug, but best to try to work around it and log
-                    this.log('ERROR | unable to find entity (try the sync button?)');
-		    continue;
+                    // this is a bug, but best to try to work around it and log
+                        this.log('ERROR | unable to find entity (try the sync button?)');
+                    continue;
                 }
+
                 if (!entity.testUserPermission(game.users.current, game.settings.get('journal-backlinks-extended', 'minPermission')))
                     continue;
                 displayWindow=true;
@@ -305,8 +306,13 @@ export class JournalLink {
                 }
                 
                 link.append($('<i class="' + icon + '"></i>'));
+            
                 link.append(' ' + entity.name);
+                if(type=="JournalEntryPage" && displayStyle=="journalandpage"){
 
+                    
+                    link.append(" ("+entity.parent.name+")");
+                }
                 let p = $('<p></p>');
                 p.append(link);
 
