@@ -4,15 +4,12 @@
   "description": "Include links to entities that reference the viewed journal, actor and item",
   "authors": [
     {
-      "name": "jtracey",
-      "flags": {}
-    },{
       "name": "muwak",
       "flags": {}
     }
   ],
   "url": "https://github.com/Muwak77/journal-backlinks-extended/",
-  "version": "0.12.5",
+  "version": "0.12.6",
   "compatibility": {
     "minimum": "10",
     "verified": "12"
@@ -31,6 +28,6 @@
       "flags": {}
     }
   ],
-  "manifest": "https://github.com/Muwak77/journal-backlinks-extended/releases/download/current/module.json",
-  "download": "https://github.com/Muwak77/journal-backlinks-extended/releases/download/current/journal-backlinks-extended.zip"
+  "manifest": "https://github.com/Muwak77/journal-backlinks-extended/releases/download/0-12-6a/module.json",
+  "download": "https://github.com/Muwak77/journal-backlinks-extended/releases/download/0-12-6a/journal-backlinks-extended.zip"
 }
