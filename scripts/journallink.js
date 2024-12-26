@@ -202,6 +202,36 @@ export class JournalLink {
 
     includeJournalPageLinks(sheet, html, data) {
         this.includeLinks(html, data.document,"journal");
+        this.includeSidebarLink(sheet, html, data) ;
+    }
+
+    includeSidebarLink(sheet, html, data) {
+    
+        const pageEntry =html.parent().parent().parent().parent().parent().find(`.directory-item[data-page-id="${sheet.object.id}"]`);
+        
+
+        if(pageEntry.length>0) {
+            
+        }
+        const headingsList = pageEntry.find('ol.headings');
+        
+        if (headingsList.length) {
+            console.log(sheet);
+            let links = data.document.flags?.['journal-backlinks-extended']?.['referencedBy'] || {};     
+            if (Object.keys(links).length > 0) {
+                headingsList.append('<li class="heading h2" data-anchor="backlinks"><a class="heading-link" draggable="true">Backlinks</a></li>');
+                const newLink = headingsList.find('[data-anchor="backlinks"] a.heading-link');
+                newLink.on('click', function(){
+                    const element =$('[data-anchor="extendedbacklinks"]');
+                    if ( element ) {
+                        element[0].scrollIntoView();
+                        return;
+                    }
+                });
+            }
+
+        }
+    
     }
 
     includeActorLinks(sheet, html, data) {
@@ -237,13 +267,13 @@ export class JournalLink {
         try {
             valueSet = (game.settings.get("journal-categories", "valueSet") || "").split(";").map(item => item.trim());
         } catch (error) {
-            console.warn("Fehler beim Abrufen von werteText aus den Einstellungen:", error);
+            //console.warn("Fehler beim Abrufen von werteText aus den Einstellungen:", error);
         }
         
         try {
             iconSet = (game.settings.get("journal-categories", "iconSet") || "").split(";").map(icon => icon.trim());
         } catch (error) {
-            console.warn("Fehler beim Abrufen von iconSet aus den Einstellungen:", error);
+            //console.warn("Fehler beim Abrufen von iconSet aus den Einstellungen:", error);
         }
 
         if (Object.keys(links).length === 0)
@@ -254,6 +284,7 @@ export class JournalLink {
         let linksDiv = $('<div class="journal-backlinks"></div>');
         let heading = document.createElement(game.settings.get('journal-backlinks-extended', 'headingTag'));
         heading.append('Linked from');
+        $(heading).attr('data-anchor','extendedbacklinks');
         linksDiv.append(heading);
         let linksList = $('<ul class="dsalist"></ul>');
         for (const [type, values] of Object.entries(links)) {
