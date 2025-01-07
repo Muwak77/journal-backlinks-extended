@@ -11,7 +11,7 @@
   "url": "https://github.com/Muwak77/journal-backlinks-extended/",
   "version": "0.12.6",
   "compatibility": {
-    "minimum": "10",
+    "minimum": "12",
     "verified": "12"
   },
   "esmodules": [
@@ -27,7 +27,7 @@
       "path": "lang/en.json",
       "flags": {}
     }
-  ],
-  "manifest": "https://github.com/Muwak77/journal-backlinks-extended/releases/download/current/module.json",
+  ],https://github.com/Muwak77/journal-backlinks-extended/releases/download/current/module.json
+  "manifest": "",
   "download": "https://github.com/Muwak77/journal-backlinks-extended/releases/download/current/journal-backlinks-extended.zip"
 }
