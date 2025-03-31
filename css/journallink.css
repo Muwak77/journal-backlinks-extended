@@ -9,4 +9,6 @@
   background-color: transparent;
   border: none;
   color:#ffffff;
+  max-height:100%;
+  overflow-y: scroll;
 }

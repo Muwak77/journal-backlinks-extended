@@ -197,6 +197,7 @@ export class JournalLink {
             backlinkBox.style.boxShadow = "2px 2px 5px rgba(0, 0, 0, 0.3)"; // Dezenter schwarzer Schatten // Optional: Hintergrundfarbe            
             backlinkBox.style.padding = "10px"; // Optional: Innenabstand für besseren Look
             backlinkBox.style.border = "1px solid black"; // Optional: Rahmen         
+
             return backlinkBox;
     }
 

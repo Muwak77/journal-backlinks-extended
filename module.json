@@ -9,7 +9,7 @@
     }
   ],
   "url": "https://github.com/Muwak77/journal-backlinks-extended/",
-  "version": "0.12.6",
+  "version": "0.12.7",
   "compatibility": {
     "minimum": "12",
     "verified": "12"
@@ -27,7 +27,7 @@
       "path": "lang/en.json",
       "flags": {}
     }
-  ],https://github.com/Muwak77/journal-backlinks-extended/releases/download/current/module.json
-  "manifest": "",
+  ],
+  "manifest": "https://github.com/Muwak77/journal-backlinks-extended/releases/download/current/module.json",
   "download": "https://github.com/Muwak77/journal-backlinks-extended/releases/download/current/journal-backlinks-extended.zip"
 }
