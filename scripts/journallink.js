@@ -240,6 +240,7 @@ export class JournalLink {
         const sheetElement = document.getElementById(sheet.id);            
         const backlinkBox = this.generateBacklinkBox(sheet);
         if (!sheetElement.querySelector('.backlinkBox')) {
+        
             sheetElement.appendChild(backlinkBox);
         }
                     
@@ -254,7 +255,7 @@ export class JournalLink {
             sheetElement.appendChild(backlinkBox);
         }
 
-        this.includeLinks(html, data.item,"item");
+        this.includeLinks(html, data.document,"item");
     }
 
     includeLinks(html, entityData,entityType) {
@@ -360,7 +361,8 @@ export class JournalLink {
                     if(displayWindow )
                         {
                             let selector="#"+html.id+" .backlinkBox";
-                            $(selector).append(linksDiv);                                    
+                            
+                            $(selector).empty().append(linksDiv);                                    
                         }else {
                             $("#" + html[0].id + " .backlinkBox").css("display", "none");
                         }                                        

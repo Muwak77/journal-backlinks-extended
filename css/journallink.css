@@ -4,7 +4,10 @@
   }
 }
 
-.sheet.actor {
+.sheet.investigator.actor {
+	overflow:visible;
+}
+.sheet {
 	overflow:visible;
 }
 .backlinkBox .backlink {

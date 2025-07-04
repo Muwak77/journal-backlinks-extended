@@ -86,13 +86,14 @@ Hooks.on("init", () => {
     // things to run on render
     // https://foundryvtt.com/api/modules/hookEvents.html#renderApplication
     Hooks.on('renderJournalEntryPageTextSheet', game.JournalLink.includeJournalPageLinks.bind(jl));
-    Hooks.on('renderActorSheet', game.JournalLink.includeActorLinks.bind(jl));
-    Hooks.on('renderItemSheet', game.JournalLink.includeItemLinks.bind(jl));
-
+    
     
         Hooks.on("renderApplicationV2", (app, html, data) => {
         if (app instanceof foundry.applications.sheets.ActorSheetV2) {        
             game.JournalLink.includeActorLinks.call(game.JournalLink, app, html, data);
+        }
+        if (app instanceof foundry.applications.sheets.ItemSheetV2) {        
+            game.JournalLink.includeItemLinks.call(game.JournalLink, app, html, data);
         }
     }); 
 

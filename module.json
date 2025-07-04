@@ -9,10 +9,10 @@
     }
   ],
   "url": "https://github.com/Muwak77/journal-backlinks-extended/",
-  "version": "0.12.7",
+  "version": "0.13.0",
   "compatibility": {
-    "minimum": "12",
-    "verified": "12"
+    "minimum": "13",
+    "verified": "13"
   },
   "esmodules": [
     "scripts/index.js"
