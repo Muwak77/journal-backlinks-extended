@@ -81,12 +81,20 @@ Hooks.on("init", () => {
     Hooks.on('preUpdateJournalEntryPage', game.JournalLink.updateJournalEntryPage.bind(jl));
     Hooks.on('preUpdateActor', game.JournalLink.updateActor.bind(jl));
     Hooks.on('preUpdateItem', game.JournalLink.updateItem.bind(jl));       
+    
 
     // things to run on render
     // https://foundryvtt.com/api/modules/hookEvents.html#renderApplication
-    Hooks.on('renderJournalPageSheet', game.JournalLink.includeJournalPageLinks.bind(jl));
+    Hooks.on('renderJournalEntryPageTextSheet', game.JournalLink.includeJournalPageLinks.bind(jl));
     Hooks.on('renderActorSheet', game.JournalLink.includeActorLinks.bind(jl));
     Hooks.on('renderItemSheet', game.JournalLink.includeItemLinks.bind(jl));
+
+    
+        Hooks.on("renderApplicationV2", (app, html, data) => {
+        if (app instanceof foundry.applications.sheets.ActorSheetV2) {        
+            game.JournalLink.includeActorLinks.call(game.JournalLink, app, html, data);
+        }
+    }); 
 
     // initial sync
     Hooks.on('ready', () => {

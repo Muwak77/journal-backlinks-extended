@@ -4,14 +4,11 @@
   }
 }
 
-.backlinkBox {
-  max-height:100%;
-  overflow-y: scroll;
+.sheet.actor {
+	overflow:visible;
 }
-
 .backlinkBox .backlink {
   background-color: transparent;
   border: none;
   color:#ffffff;
-  
 }

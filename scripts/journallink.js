@@ -6,6 +6,7 @@ export class JournalLink {
     };
 
     elementSelectors = [
+        '.journal-page-content',
         '.editor-content[data-edit="system.description.value"]',
         '.editor-content[data-edit="system.details.biography.value"]',
         '.backlink-window'
@@ -197,13 +198,12 @@ export class JournalLink {
             backlinkBox.style.boxShadow = "2px 2px 5px rgba(0, 0, 0, 0.3)"; // Dezenter schwarzer Schatten // Optional: Hintergrundfarbe            
             backlinkBox.style.padding = "10px"; // Optional: Innenabstand für besseren Look
             backlinkBox.style.border = "1px solid black"; // Optional: Rahmen         
-
             return backlinkBox;
     }
 
     includeJournalPageLinks(sheet, html, data) {
         this.includeLinks(html, data.document,"journal");
-        this.includeSidebarLink(sheet, html, data) ;
+        //this.includeSidebarLink(sheet, html, data) ;//Fix this later
     }
 
     includeSidebarLink(sheet, html, data) {
@@ -243,7 +243,7 @@ export class JournalLink {
             sheetElement.appendChild(backlinkBox);
         }
                     
-        this.includeLinks(html, data.actor,"actor");
+        this.includeLinks(html, data.document,"actor");
     }
 
     includeItemLinks(sheet, html, data) {
@@ -359,7 +359,8 @@ export class JournalLink {
                 {
                     if(displayWindow )
                         {
-                            $("#"+html[0].id+" .backlinkBox").append(linksDiv);                                    
+                            let selector="#"+html.id+" .backlinkBox";
+                            $(selector).append(linksDiv);                                    
                         }else {
                             $("#" + html[0].id + " .backlinkBox").css("display", "none");
                         }                                        
@@ -429,7 +430,7 @@ export class JournalLink {
 
     getElementToModify(html) {
         for (let selector of this.elementSelectors) {
-            let element = html.find(selector);
+            let element = $(html).find(selector);
 
             if (element.length === 1) {
                 return element;
